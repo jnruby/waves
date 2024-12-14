@@ -1,0 +1,171 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <head>
+        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon">
+        <title>waves timer control panel</title>
+        <!-- Load all required scripts in correct order -->
+        <script src="jquery.min.js"></script>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="timer-common.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" media="screen"/>
+    </head>
+    <body>
+        <!-- Status Section -->
+        <div class="status-container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-label">Status:</span>
+                            <span id="status">stopwatch off</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Computer Time:</span>
+                            <span id="timer"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="helptext col-xs-12 text-center">
+                <p id="demo"></p>
+                <script>document.getElementById("demo").innerHTML = "" + window.location.href;</script>
+                <div class="row">
+                    <div class="helptext col-xs-12 text-center">
+                        <p>Scan for Timer Display:</p>
+                        <div id="qrcode" style="display: inline-block; padding: 10px; background: white; border-radius: 5px;"></div>
+                        <div style="margin-top: 10px;">
+                            <button onclick="shareQR()" class="btn btn-primary" style="margin: 5px;">
+                                Share Link
+                            </button>
+                            <button onclick="downloadQR()" class="btn btn-secondary" style="margin: 5px;">
+                                Download QR
+                            </button>
+                        </div>
+                    </div>
+                </div>                                
+                                waves timer <p style="color:red;"><b>CONTROL PANEL</b></p>
+                &copy; <script>document.write(new Date().getFullYear())</script> 
+                <a href="https://joshuanrubin.com" target="_blank">Joshua Rubin</a>
+            </div>
+        </div>
+
+        <div class="get-ready-display" style="display:none;">
+            GET READY
+        </div>
+
+        <div class="row">
+            <div class="stopwatch col-xs-12 text-center">
+                <div id="stopwatch"></div>
+            </div>
+        </div>
+
+        <div id="setTime" class="time-input-container">
+            <div class="helptext">Set Timer (then press Start)</div>
+            <input type="hidden" id="timeInput" value="00:00:00"/>
+            <div id="time-selector-root"></div>
+            <div class="time-presets">
+                <div class="time-preset" data-time="00:05:00">5min</div>
+                <div class="time-preset" data-time="00:10:00">10min</div>
+                <div class="time-preset" data-time="00:15:00">15min</div>
+                <div class="time-preset" data-time="00:30:00">30min</div>
+                <div class="time-preset" data-time="-00:00:30">-30sec</div>
+                <div class="time-preset" data-time="-00:01:00">-1min</div>
+            </div>
+        </div>
+
+        <div class="helptext col-xs-12 text-center">
+            <button class="btn btn-danger stopbutton" onclick="stopTimer();return false;">Stop</button>
+            <button class="btn btn-success startbutton" onclick="startTimer();return false;">Start</button>
+            <button id="getReadyBtn" class="btn btn-primary" onclick="toggleGetReady();return false;" data-active="false">Get Ready</button>
+        </div>
+
+        <!-- Initialize timer checks -->
+        <script>
+            var startTime = 0;
+            var alwayscheck = initializeTimerCheck();
+            initializeGetReadyCheck(true);
+
+            // Time presets
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.time-preset').forEach(preset => {
+                    preset.addEventListener('click', function() {
+                        const time = this.dataset.time;
+                        document.getElementById('timeInput').value = time;
+                    });
+                });
+            });
+        </script>
+
+<script>
+    // Get the base URL
+    const currentUrl = window.location.href;
+    const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/')) + '/index.html';
+    
+    // Generate QR code
+    const qr = new QRCode(document.getElementById("qrcode"), {
+        text: baseUrl,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Share function
+    async function shareQR() {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Timer Display',
+                    text: 'Access the timer display here:',
+                    url: baseUrl
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                await navigator.clipboard.writeText(baseUrl);
+                alert('Link copied to clipboard!');
+            }
+        } catch (err) {
+            console.error('Error sharing:', err);
+            // Fallback if sharing fails
+            try {
+                await navigator.clipboard.writeText(baseUrl);
+                alert('Link copied to clipboard!');
+            } catch (err) {
+                alert('Could not share or copy link. The URL is: ' + baseUrl);
+            }
+        }
+    }
+
+    // Download function
+    function downloadQR() {
+        // Get the QR code canvas
+        const canvas = document.querySelector('#qrcode canvas');
+        if (!canvas) return;
+
+        // Convert to data URL
+        const dataUrl = canvas.toDataURL('image/png');
+        
+        // Create download link
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'timer-qr-code.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>
+
+        <!-- Load and mount the React component -->
+        <script type="text/babel" src="TimeSelector.jsx"></script>
+    </body>
+</html>

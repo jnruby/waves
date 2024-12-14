@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon">
+        <title>waves timer</title>
+        <script src="jquery.min.js"></script>
+        <script src="timer-common.js"></script>
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" media="screen"/>
+    </head>
+    <body>
+        <div class="helptext">status:
+            <div id="status"></div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="helptext col-xs-12 text-center">
+                <p id="demo"></p>
+                <script>document.getElementById("demo").innerHTML = "" + window.location.href;</script>
+                waves timer<br />
+                &copy; <script>document.write(new Date().getFullYear())</script> 
+                <a href="https://joshuanrubin.com" target="_blank">Joshua Rubin</a>
+            </div>
+        </div>
+        
+        <div class="get-ready-display">
+            GET READY
+        </div>
+
+        <div class="row">
+            <div class="stopwatch col-xs-12 text-center">
+                <div id="stopwatch"></div>
+            </div>
+        </div>
+
+        <script>
+            var startTime = 0;
+            var alwayscheck = initializeTimerCheck();
+            initializeGetReadyCheck(false);  // false for display only
+        </script>
+    </body>
+</html>
