@@ -8,6 +8,8 @@ change the db credentials towards the top of the file timecheck.php for your spe
 
 Timer viewers will use the base URL, controllers of the timer will use mydomain.com/control
 
+Can be deployed in Docker using the included configurations.
+
 # installation
 Install LAMP stack, run migration for sql file, adjust mysql credentials as appropriate.
 
