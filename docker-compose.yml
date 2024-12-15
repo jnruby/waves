@@ -6,7 +6,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www/html/
+      - ./src/:/var/www/html/
     depends_on:
       - db
     environment:
@@ -23,7 +23,7 @@ services:
       - MYSQL_DATABASE=synced_watch
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./timermigration.sql:/docker-entrypoint-initdb.d/timermigration.sql
+      - ./timer_migration.sql:/docker-entrypoint-initdb.d/timer_migration.sql
 
 volumes:
   mysql_data:

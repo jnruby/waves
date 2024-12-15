@@ -16,7 +16,10 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 WORKDIR /var/www/html
 
 # Copy application files
-COPY . /var/www/html/
+COPY src/ /var/www/html/
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
+
+RUN echo "display_errors = Off" >> /usr/local/etc/php/php.ini
+RUN echo "log_errors = On" >> /usr/local/etc/php/php.ini

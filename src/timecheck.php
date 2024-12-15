@@ -8,17 +8,15 @@ if($_POST['action']=="toggleGetReady")
 if($_POST['action']=="checkGetReady")
     checkGetReady();
 
-function connect(){
-    try{
-        if($conn = new PDO('mysql:host=localhost;dbname=synced_watch','root','timerbusinesstime')){
-            $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            return $conn;
-        }
-        else{
-            return "nope";
-        }
+function connect() {
+    try {
+        $dsn = "mysql:host=db;dbname=synced_watch";
+        $conn = new PDO($dsn, 'root', 'timerbusinesstime');
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
     } catch(PDOException $e) {
-        return 'Connection failed: ' . $e->getMessage();
+        error_log('Connection failed: ' . $e->getMessage());
+        throw $e;
     }
 }
 
