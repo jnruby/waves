@@ -23,7 +23,7 @@ services:
       - MYSQL_DATABASE=synced_watch
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./timer_migration.sql:/docker-entrypoint-initdb.d/timer_migration.sql
+      - ./timermigration.sql:/docker-entrypoint-initdb.d/timermigration.sql
 
 volumes:
   mysql_data:

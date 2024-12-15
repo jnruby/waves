@@ -126,7 +126,6 @@
             if (navigator.share) {
                 await navigator.share({
                     title: 'Timer Display',
-                    text: 'Access the timer display here:',
                     url: baseUrl
                 });
             } else {
