@@ -37,24 +37,23 @@
         <div class="row">
             <div class="helptext col-xs-12 text-center">
                 <p id="demo"></p>
+                <p style="color:red;"><b>CONTROL PANEL</b></p>
                 <script>document.getElementById("demo").innerHTML = "" + window.location.href;</script>
+                waves timer &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://joshuanrubin.com" target="_blank">Joshua Rubin</a>
                 <div class="row">
                     <div class="helptext col-xs-12 text-center">
                         <p>Scan for Timer Display:</p>
                         <div id="qrcode" style="display: inline-block; padding: 10px; background: white; border-radius: 5px;"></div>
-                        <div style="margin-top: 10px;">
+                        <div style="margin-top: 5px;">
                             <button onclick="shareQR()" class="btn btn-primary" style="margin: 5px;">
                                 Share Link
                             </button>
-                            <button onclick="downloadQR()" class="btn btn-secondary" style="margin: 5px;">
+                            <button onclick="downloadQR()" class="btn btn-info" style="margin: 5px;">
                                 Download QR
                             </button>
                         </div>
                     </div>
                 </div>                                
-                                waves timer <p style="color:red;"><b>CONTROL PANEL</b></p>
-                &copy; <script>document.write(new Date().getFullYear())</script> 
-                <a href="https://joshuanrubin.com" target="_blank">Joshua Rubin</a>
             </div>
         </div>
 
