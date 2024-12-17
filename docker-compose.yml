@@ -5,8 +5,12 @@ services:
     build: .
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./src:/var/www/html
+      - ./ssl:/etc/apache2/ssl
+      - ./apache-ssl.conf:/etc/apache2/sites-enabled/000-default-ssl.conf
+
     depends_on:
       - db
     environment:
