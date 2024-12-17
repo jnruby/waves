@@ -72,6 +72,7 @@
             <input type="hidden" id="timeInput" value="00:00:00"/>
             <div id="time-selector-root"></div>
             <div class="time-presets">
+                <div class="time-preset" data-time="00:00:00">0min</div>
                 <div class="time-preset" data-time="00:05:00">5min</div>
                 <div class="time-preset" data-time="00:10:00">10min</div>
                 <div class="time-preset" data-time="00:15:00">15min</div>
@@ -99,6 +100,13 @@
                     preset.addEventListener('click', function() {
                         const time = this.dataset.time;
                         document.getElementById('timeInput').value = time;
+                                // Trigger React component update
+        const timeSelector = document.querySelector('.time-input');
+        if(timeSelector) {
+            timeSelector.value = time;
+            // Simulate an onChange event
+            timeSelector.dispatchEvent(new Event('change', { bubbles: true }));
+        }  
                     });
                 });
             });

@@ -36,26 +36,18 @@ function startOrStopTimer($timer_arr) {
     $starting = $timer_arr['start'];
     try {
         $conn = connect();
-        if($starting == "0") {
+        if($starting=="0") {
             $start_time = ", start_time=0 ";
         } else {
-            // Convert all inputs to integers
-            $hour = (int)$timer_arr['hour'];
-            $minute = (int)$timer_arr['minute'];
-            $second = (int)$timer_arr['second'];
-            
-            if($hour == 0 && $minute == 0 && $second == 0) {
+            if($timer_arr['hour']=="0" && $timer_arr['minute']=="0" && $timer_arr['second']=="0") {
+                // For immediate start, use current timestamp
                 $start_time = ", start_time=UNIX_TIMESTAMP(CURRENT_TIMESTAMP) ";
             } else {
-                // Calculate the offset in seconds
-                $total_seconds = ($hour * 3600) + ($minute * 60) + $second;
-                
-                // For negative times, add to current timestamp instead of subtracting
-                if($total_seconds < 0) {
-                    $start_time = ", start_time=UNIX_TIMESTAMP(CURRENT_TIMESTAMP) + " . abs($total_seconds) . " ";
-                } else {
-                    $start_time = ", start_time=UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - " . $total_seconds . " ";
-                }
+                // For preset times, use current timestamp + 1 to ensure we start on the next full second
+                $hour_to_unix = (int)$timer_arr['hour'] * 60 * 60;
+                $minute_to_unix = (int)$timer_arr['minute'] * 60;
+                $to_sub = $hour_to_unix + $minute_to_unix + (int)$timer_arr['second'];
+                $start_time = ", start_time=UNIX_TIMESTAMP(CURRENT_TIMESTAMP) + 1 - ".$to_sub." ";
             }
         }
         
