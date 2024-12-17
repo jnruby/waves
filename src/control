@@ -72,12 +72,12 @@
             <input type="hidden" id="timeInput" value="00:00:00"/>
             <div id="time-selector-root"></div>
             <div class="time-presets">
-                <div class="time-preset" data-time="00:05:00">5min</div>
-                <div class="time-preset" data-time="00:10:00">10min</div>
-                <div class="time-preset" data-time="00:15:00">15min</div>
-                <div class="time-preset" data-time="00:30:00">30min</div>
-                <div class="time-preset" data-time="-00:00:30">-30sec</div>
-                <div class="time-preset" data-time="-00:01:00">-1min</div>
+                <div class="time-preset" data-time="00:00:00">0 min</div>
+                <div class="time-preset" data-time="00:05:00">5 min</div>
+                <div class="time-preset" data-time="00:10:00">10 min</div>
+                <div class="time-preset" data-time="00:15:00">15 min</div>
+                <div class="time-preset" data-time="-00:00:10">-10 sec</div>
+                <div class="time-preset" data-time="-00:01:00">-1 min</div>
             </div>
         </div>
 
@@ -89,7 +89,7 @@
 
         <!-- Initialize timer checks -->
         <script>
-            var startTime = 0;
+//            var startTime = 0;
             var alwayscheck = initializeTimerCheck();
             initializeGetReadyCheck(true);
 
