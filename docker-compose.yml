@@ -4,13 +4,13 @@ services:
   web:
     build: .
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - ./src:/var/www/html
       - ./ssl:/etc/apache2/ssl
       - ./apache-ssl.conf:/etc/apache2/sites-enabled/000-default-ssl.conf
-
+      - /etc/letsencrypt/live/waves.terrylongshore.com/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/waves.terrylongshore.com/privkey.pem:/etc/ssl/private/privkey.pem:ro
     depends_on:
       - db
     environment:
